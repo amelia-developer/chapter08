@@ -16,14 +16,22 @@ const List = () => {
 
     // 검색 결과 로딩이 끝난 후 로딩 상태를 false로 변경
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsLoading(false)
     }, 500) // 임의의 딜레이(0.5초)를 추가해 로딩 표시
 
     return () => clearTimeout(timer) // 컴포넌트 언마운트 시 타이머 정리
   }, [searchWord])
 
   if(isLoading) {
-    return <p>loading...</p>
+    return  <div id="container">
+              <div className="stick"></div>
+              <div className="stick"></div>
+              <div className="stick"></div>
+              <div className="stick"></div>
+              <div className="stick"></div>
+              <div className="stick"></div>
+              <h1 className="tit-Loadng">Loading...</h1>
+            </div>
   }
 
   if (!Array.isArray(searchWord)) {
