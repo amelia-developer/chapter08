@@ -53,7 +53,7 @@ const Search = () => {
             <div className='search-box'>
                 <form onSubmit={onSearchSubmit}>
                     <input type='search' placeholder='게임, 앱, 스토리 등' onChange={onSearchWord} value={inSearchWord} />
-                    <button type='submit'>검색</button>                
+                    <button type='submit'>검색</button>
                 </form>
             </div> 
         </>
