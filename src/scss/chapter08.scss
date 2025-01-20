@@ -1,0 +1,167 @@
+@charset "utf-8";
+  
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    h1 {
+        font-size: 7vw;
+        color: #000;
+        margin: 0;
+    }
+    a {
+        display: block;
+        cursor: pointer;
+        text-decoration: none;
+        width: 20px;
+        height: 20px;
+        background-color: #c6c1c1;
+        color: #fff;
+        padding: 5px;
+        border-radius: 100%;
+        text-align: center;
+    }
+} // header종료
+
+.search-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    form {
+        width: 80%;
+    }
+    input[type='search'] {
+        width: 80%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+    button {
+        width: 20%;
+        height: 40px;
+    }
+} // search-box종료
+
+.box {
+    padding: 0 20px;
+    margin-bottom: 2rem;
+    .top {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        .left {
+            display: flex;
+            .center {
+                display: flex;
+                flex-wrap: wrap;
+                flex-direction: column;
+                height: 100%;
+                align-items: center;
+                justify-content: center;
+                .title {
+                    font-size: 0.8rem;
+                    display: flex;
+                    align-items: center;
+                    font-weight: 700;
+                    color: #000;
+                    padding-left: 12px;
+                    height: auto;
+                    width: 94%;
+                }
+                .genre, .subtext {
+                    font-size: 0.6rem;
+                    color: #8E8E93;
+                    display: block;
+                    width: 94%;
+                    padding: 6px 0 0 12px;
+                }
+            } // center종료
+        } // left종료
+        
+        .right {
+            display: flex;
+            align-items: center;
+            button {
+                width: 4rem;
+                height: 2rem;
+                padding: 0;
+                border: 0;
+                background-color: #e7e7e7;
+                border-radius: 20px;
+                color: #007AFF;
+                font-weight: 700;
+            }
+        } // right종료
+    }
+    .middle {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+        .rate-box {
+            display: flex;
+            .star-rating {
+                color: #989898;
+                position: relative;
+                unicode-bidi: bidi-override;
+                width: max-content;
+                -webkit-text-fill-color: transparent;
+                -webkit-text-stroke-width: 1.3px;
+                -webkit-text-stroke-color: #8E8E93;
+                margin: 0 10px 0 0;
+                .star_rating_fill {
+                    color: #8E8E93;
+                    padding: 0;
+                    position: absolute;
+                    z-index: 1;
+                    display: flex;
+                    top: 0;
+                    left: 0;
+                    overflow: hidden;
+                    -webkit-text-fill-color: #8E8E93;
+                }
+                .star_rating_base {
+                    z-index: 0;
+                    padding: 0;
+                }
+            } // star-rating종료
+            .text-average {
+                color: #8E8E93;
+            }
+        } // rate-box종료
+        .text-genre {
+            color: #8E8E93;
+        }
+        .text-seller-name {
+            color: #8E8E93;
+            max-width: 35vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+    .bottom {
+        .imgbox {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 0.6rem;
+            li {
+                list-style: none;
+                width: 33.3%;
+                img {
+                    width: 100%;
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    box-sizing: border-box;
+                    display: block;
+                }
+            }
+        } // imgbox종료
+    }
+} // box종료
