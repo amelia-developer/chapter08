@@ -1,26 +1,47 @@
 @charset "utf-8";
   
 header {
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    h1 {
-        font-size: 7vw;
-        color: #000;
-        margin: 0;
+    position: fixed;
+    top: 0;
+    width: 90%;
+    background-color: #fff;
+    z-index: 10;
+    border-bottom: 1px solid #e7e7e7;
+    form {
+        width: 90%;
     }
-    a {
-        display: block;
-        cursor: pointer;
-        text-decoration: none;
-        width: 20px;
-        height: 20px;
-        background-color: #c6c1c1;
-        color: #fff;
-        padding: 5px;
-        border-radius: 100%;
-        text-align: center;
+    label {
+        width: 100%;
+        display: flex;
+        position: relative;
+        .btn-search {
+            position: absolute;
+            left: 0.2rem;
+            top: 0.25rem;
+            display: inline-block;
+            padding: 0;
+            border: 0;
+            background-color: transparent;
+        }
+        input[type='search'] {
+            display: block;
+            width: 100%;
+            padding: 0.4rem 0.4rem 0.4rem 1.8rem;
+            background-color: #e7e7e7;
+            border-radius: 20px;
+            border: none;
+        }
+    } // label종료
+    .btn-cancel {
+        padding: 0;
+        border: 0;
+        background-color: transparent;
+        color: #007AFF;
+        font-weight: 700;
+        font-size: 0.9rem;
     }
 } // header종료
 
@@ -45,6 +66,10 @@ header {
         height: 40px;
     }
 } // search-box종료
+
+.box-wrap {
+    padding-top: 50px;
+} // box-wrap종료
 
 .box {
     padding: 0 20px;

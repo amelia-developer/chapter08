@@ -34,10 +34,10 @@ const List = () => {
   return (
     <>
       <Header></Header>
+      <div className='box-wrap'>
       {
         searchWord.map((item, idx) => {
           const sliceImg = item.screenshotUrls.slice(0,3) // 0번째부터 2번째까지(원본배열 안건드림)
-          
           return  <div className='box' key={idx}>
                     <div className='top'>
                         <div className='left'>
@@ -61,8 +61,9 @@ const List = () => {
                       </ul>
                     </div>
                   </div>
-         })
+          })
       }
+      </div>
     </>
   )
 }
