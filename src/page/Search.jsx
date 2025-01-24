@@ -2,15 +2,12 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { fetchSearchWord } from '../api/searchApi'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { inputSearchWord } from '../redux/searchAction'
 
 const Search = () => {
     const [inSearchWord, setInSearchWord] = useState('')
     const [resultSearchWord, setResultSearchWord] = useState('')
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const queryClient = useQueryClient()
 
     const onSearchWord = (e) => {
@@ -24,14 +21,13 @@ const Search = () => {
             queryKey: ['resultSearchWord', resultSearchWord], // resultSearchWord가 변경되면 쿼리 실행
             queryFn: async() => {
                 const result = await fetchSearchWord(resultSearchWord) // 쿼리 함수, 비동기함수로 검색어에 맞는 데이터를 가져옴
-                dispatch(inputSearchWord(result)) // 쿼리 실행 시 바로 redux에 저장_B.리덕스는 전역상태를 관리하는 목적
 // console.log(`result = ${JSON.stringify(result)}`);
                 return result // 쿼리데이터를 반환
             },
             enabled: !!resultSearchWord, // resultSearchWord가 비어있지 않을 때만 쿼리 실행
             refetchOnWindowFocus: false,  // 화면 포커스 시 다시 불러오지 않도록 설정
-            staleTime: 0, // 데이터가 즉시 stale 상태로 간주되도록 설정
-            cacheTime: 0 // 이전캐시쿼리가 바로 삭제제
+            staleTime: 5*60*1000, // 데이터가 즉시 stale 상태로 간주되도록 설정 -> 데이터가 5분동안 최신으로 간주주
+            cacheTime: 10*60*1000 // 이전캐시쿼리가 바로 삭제 -> 데이터는 10분동안 캐시에서 유지
         }
     )
 
@@ -44,7 +40,7 @@ const Search = () => {
     useEffect(() => {
         if (resultSearchWord && data) {
 // console.log(`data는 = ${JSON.stringify(data)}`)
-            navigate(`/list`) // TODO:navigate로 이동해야함
+            navigate(`/list`, {state: {data}}) // 데이터를 state로 전달해서 list컴포넌트로 이동
         }
     }, [resultSearchWord, data])
     

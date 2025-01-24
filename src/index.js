@@ -5,9 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import List from './page/List'
-import {store} from './redux/store'
 
 const queryClient = new QueryClient()
 
@@ -15,14 +13,12 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // <React.StrictMode>
     <BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
-      <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <Routes>
             <Route path="/" element={<App />}></Route>
             <Route path="/list" element={<List />}></Route>
           </Routes>
         </QueryClientProvider>
-      </Provider>
     </BrowserRouter>
   // </React.StrictMode>
 );

@@ -1,14 +1,13 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useEffect, useState } from 'react'
 import { fetchSearchWord } from '../../api/searchApi'
-import { inputSearchWord } from '../../redux/searchAction'
-import { useDispatch } from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 const Header = () => {
     const [inSearchWord, setInSearchWord] = useState('')
     const [resultSearchWord, setResultSearchWord] = useState('')
     
-    const dispatch = useDispatch()
+    const navigate = useNavigate()
     const queryClient = useQueryClient()
 
     const onSearchWord = (e) => {
@@ -20,13 +19,12 @@ const Header = () => {
             queryKey: ['resultSearchWord', resultSearchWord],
             queryFn: async() => {
                 const result = await fetchSearchWord(resultSearchWord)
-                dispatch(inputSearchWord(result))
                 return result
             },
             enabled: !!resultSearchWord,
             refetchOnWindowFocus: false,
-            staleTime: 0,
-            cacheTime: 0 
+            staleTime: 5*60*1000,
+            cacheTime: 10*60*1000
         }
     )
 
@@ -38,7 +36,7 @@ const Header = () => {
 
     useEffect(() => {
         if(resultSearchWord && data) {
-            window.location.reload()
+            navigate(`/list`, {state: {data}}) 
         }
 // console.log(`testtesttest`)
     }, [resultSearchWord, data])
