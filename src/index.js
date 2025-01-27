@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import List from './page/List'
+import Detail from './page/Detail';
 
 const queryClient = new QueryClient()
 
@@ -17,6 +18,7 @@ root.render(
           <Routes>
             <Route path="/" element={<App />}></Route>
             <Route path="/list" element={<List />}></Route>
+            <Route path="/detail" element={<Detail />}></Route>
           </Routes>
         </QueryClientProvider>
     </BrowserRouter>

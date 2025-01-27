@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Header from './inc/Header';
 import Star from './Star';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSearchWord } from '../api/searchApi';
 
@@ -121,32 +121,42 @@ console.log(`로딩 데이터 범위: ${start} - ${end}`);
   }, [currentPage])
   // INF[e]
 
+  const navigate = useNavigate();
+  const onDetail = (idx, item) => {
+    navigate(`/detail`, {
+      state: {
+        idx: idx,
+        item: item  
+      }
+    })
+  }
+
   return (
     <>
       <Header />
       <div className="box-wrap">
-        {displayData.map((item, idx) => (
-          <div className="box" key={idx}>
-            <div className="top">
-              <div className="left">
-                <img src={item.artworkUrl60} alt={item.trackName} />
-                <div className="center">
-                  <span className="title">{item.trackName}</span>
-                  <span className="genre">{item.primaryGenreName}</span>
+        {displayData.map((item, idx) => {
+        return  <div className="box" key={idx} onClick={() => onDetail(idx, item)}>
+                  <div className="top">
+                    <div className="left">
+                      <img src={item.artworkUrl60} alt={item.trackName} />
+                      <div className="center">
+                        <span className="title">{item.trackName}</span>
+                        <span className="genre">{item.primaryGenreName}</span>
+                      </div>
+                    </div>
+                    <div className="right"><button type="button">받기</button></div>
+                  </div>
+                  <div className="middle"><Star item={item} /></div>
+                  <div className="bottom">
+                    <ul className="imgbox">
+                      {item.screenshotUrls.slice(0, 3).map((url, idx) => (
+                        <li key={idx}><img src={url} alt="" /></li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-              <div className="right"><button type="button">받기</button></div>
-            </div>
-            <div className="middle"><Star item={item} /></div>
-            <div className="bottom">
-              <ul className="imgbox">
-                {item.screenshotUrls.slice(0, 3).map((url, idx) => (
-                  <li key={idx}><img src={url} alt="" /></li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        ))}
+        })}
         <div ref={observerRef} style={{ height: '50px', backgroundColor: 'transparent' }}></div> {/* 관찰 대상 스타일 조정 */}
       </div>
     </>
