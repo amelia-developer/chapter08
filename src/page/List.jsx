@@ -1,161 +1,156 @@
-import React, {useEffect, useState, useRef} from 'react'
-import Header from './inc/Header'
-import Star from './Star'
-import {useLocation} from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
-import { fetchSearchWord } from '../api/searchApi'
+import React, { useState, useEffect, useRef } from 'react';
+import Header from './inc/Header';
+import Star from './Star';
+import { useLocation } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { fetchSearchWord } from '../api/searchApi';
 
 const List = () => {
-  // 로딩상태
-  const [isLoading, setIsLoading] = useState(true)
+  const [displayData, setDisplayData] = useState([]); // 보여지는 데이터
+  const [currentPage, setCurrentPage] = useState(1); // 현재페이지
+  const [isLoading, setIsLoading] = useState(true); // 로딩
+  const observerRef = useRef(null); // ref관찰대상
 
-  const location = useLocation()
-  const dataFromState = location.state?.data // search컴포넌트에서 전달받은 데이터
+  const location = useLocation();
+  const dataFromState = location.state?.data; // search에서 query로 전달받은 데이터
 
-  // 만약state에 데이터가 없다면, 캐시에서 데이터를 가져오기 위해 useQuery사용
-  const {data: cacheData} = useQuery(
-    {
-      queryKey: ['resultSearchWord', location.state?.data?.searchQuery], // 캐시된 데이터를 위한 key(location.state.data객체의 속성 중 하나가 searchQuery임)
-      queryFn: async() => {
-        if(!dataFromState) {
-          // state에 데이터가 없으면 캐시에서 데이터를 불러옴
-          const result = await fetchSearchWord(location.state?.data?.searchQuery)
-          return result
-        }
-        return dataFromState
-      },
-      enabled: !!location.state?.data // 데이터가 있을때만 쿼리실행
-    }
-  )
+  const { data: cacheData } = useQuery({
+    queryKey: ['resultSearchWord', location.state?.data?.searchQuery],
+    queryFn: () => fetchSearchWord(location.state?.data?.searchQuery),
+    enabled: !!location.state?.data, // location.state?.data가 있을때에만(=비어있지 않을때에만) 실행
+  })
 
-  const initialData = dataFromState || cacheData // state에서 데이터가 없으면 캐시된 데이터를 사용
+  const initialData = dataFromState || cacheData || []; // 밑에 return부에 캐시로 이미 불러져있는 데이터를 보여줄지, 통신으로 불러온데이터를 보여줄지, 둘다없으면 빈배열인지지
+console.log(`Initial data는 = ${initialData}`)
 
-  // INF[s]
-  const observerRef = useRef()
-  const [displayData, setDisplayData] = useState([])
-  const [currentPage, setCurrentPage] = useState(1)
+  // INF[s] : '노출대상이 뷰포트와 교차하는지(handlerObserver)', '노출대상이 뷰포트에 진입하는지(handlerScroll)', 노출대상에 대한 세팅설정(setupObserver)
+  //          (뷰포트에 진입하는지는 window.scroll사용할거고, 디바운드 또는 스로틀을 해줘야함_클라부하고려)
 
-  useEffect(() => {
-    if(initialData) {
-      const newData = initialData.slice(0, currentPage * 10)
-      setDisplayData(newData) // 새 데이터를 덮어쓰는 방식
-    }
-  }, [initialData, currentPage])
-
-  useEffect(() => {
-    if(!observerRef.current) {
-      console.log(`observerRef.current가 아직도 null임null임null임`)
-      return // observer초기화 방지
-    }
-
-      if (!initialData || initialData.length === 0) {
-        console.log('observerRef.current is null')
-        return
-      }
-
-    const observer = new IntersectionObserver((entries) => {
-console.log('Observer entries:', entries); // 스크롤 이벤트가 발생하는지 확인
-console.log(entries[0]); // 이걸 추가해서 observer가 트리거 되는지 확인
-      if(entries[0]?.isIntersecting) {
-        // setCurrentPage((prev) => prev + 1)
-        setCurrentPage((prev) => {
-console.log(`previous page = ${JSON.stringify(prev)}`);
-          // 데이터를 모두 로드한 경우 관찰중지
-          if(prev >= Math.ceil(initialData.length / 10)) {
-            console.log(`모든데이터 로드 완료!!!`)
-            return prev; // 모든 데이터가 로드되었을 때는 현재 페이지 유지
-          }
-          const nextPage = prev + 1
-console.log(`nextPage = ${JSON.stringify(nextPage)}`);
-          return nextPage; // 새로운 페이지로 증가
-        })
-      }
-    }, {
-        threshold: 0,  // 더 민감하게
-        rootMargin: '100px',  // 더 넓게
+  // 노출대상이 뷰포트와 교차했는지 감지(스크롤끝에 닿았는지, 데이터로드할라고 페이지 증가, 데이터 추가로 보여줄라고 로딩설정)
+  const handleObserver = (entries) => {
+    const target = entries[0] // 노출대상의 dom엘리먼트임
+    if (target.isIntersecting && !isLoading) {
+  console.log('닿았음') // 스크롤 끝에 닿았을 때 로그 출력
+      setIsLoading(true)
+      setCurrentPage((prev) => {
+  console.log('Current page 증가:', prev + 1)
+        return prev + 1
       })
-
-    if(observerRef.current) {
-      observer.observe(observerRef.current)
-    } else {
-      console.log(`observerRef.current가 null이거나 올바르지 않음`)
     }
+  }
 
-    return () => {
-      if(observerRef.current) {
-        observer.unobserve(observerRef.current)
-      }
-    }
-  }, [initialData.length, currentPage])
+  // 노출대상에 대한 세팅(노출대상이 없을때, 노출대상이 있을때 어떤녀석을 노출대상으로 잡을건지)
+  const setupObserver = () => {
+    if (!observerRef.current) return; // 노출대상이 없으면 return(해당함수종료)
 
-console.log(`displayData = ${JSON.stringify(displayData)}`);
-// INF[e]
-  
-  useEffect(()=> {
-    setIsLoading(true)
+    const observer = new IntersectionObserver(handleObserver, { // handleObserver이라는 노출대상이 있으면
+      root: document.querySelector('.box-wrap'),
+      rootMargin: '30px',
+      threshold: 0.1,
+    })
 
-    // 검색 결과 로딩이 끝난 후 로딩 상태를 false로 변경
-    const timer = setTimeout(() => {
+    observer.observe(observerRef.current)
+  console.log('Observer 설정 완료')
+  }
+
+  // [첫번째 useEffect의 역할] 
+  // 1. 'return부에 보여질 initialData'에 변화가 있을때 맨처음 initialData를 5개씩 짜름
+  // 2. 짜르는동안 로딩은 사라짐
+  // 3. 현재페이지는 1로 세팅
+  // 4. 관찰자에 대한 초기세팅(setupObserver)
+  // 5. 새로운검색어 입력 시 스크롤 맨위로
+  useEffect(() => {
+    setDisplayData(initialData.slice(0, 5))
+    setCurrentPage(1)
+console.log('초기 데이터 설정:', initialData.slice(0, 5))
+    setTimeout(() => {
       setIsLoading(false)
-    }, 500) // 임의의 딜레이(0.5초)를 추가해 로딩 표시
+      console.log('초기 로드 완료')
+      setupObserver()
+    }, 1000) // 1초지연설정
 
-    return () => clearTimeout(timer) // 컴포넌트 언마운트 시 타이머 정리
+    // 새로운 검색어 입력 시 스크롤 맨 위로 이동
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [initialData])
+  
+  // [두번째useEffect의 역할]
+  // 1. 로딩이 새로 이루어 질때 노출대상이 뷰포트에 진입했는지
+  // 2. 진입했다면, 스크롤은 200ms간격으로 실행됨
+  // 3. 진입했다면, 타이머초기화됨
+  // 4. 진입했다면, 로딩을 보여줌
+  // 5. 진입했다면, 다음페이지를 위해 이전페이지+1을 함
+  useEffect(() => {
+    // 노출대상이 뷰포트에 진입했는지 감지(노출요소가 뷰포트에 도달했는지, 데이터로드할라고 페이지 증가, 데이터 추가로 보여줄라고 로딩설정)
+    let timer
+    const handleScroll = () => {
+      const rect = observerRef.current.getBoundingClientRect() // 해당element의 크기와 뷰포트에 상대적 위치 정보 제공
+      if(rect.top <= window.innerHeight) { 
+        if (timer) return  // 타이머가 존재하면 중복 호출 방지
+        timer = setTimeout(() => {
+          timer = null // 타이머초기화
+          setIsLoading(true)
+          setCurrentPage((prev) => {
+            return prev + 1
+          })  
+        }, 200) // 200ms간격으로 실행
+      }  
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [isLoading])
 
-  if(!initialData) {
-    return <p>No data found. Please perform a search first.</p>
-  }
+  // [세번째useEffect의 역할]
+  // 1. 현재페이지가 1이면 return
+  // 2. 현재페이지에 변화가 생길때, 데이터를 잘라내기위해 시작하는 인덱스와 잘라내는 끝 인덱스를 구함
+  // 3. 구한 start, end를 '전개연산자'를 이용해서 displayData에 입힘
+  useEffect(() => {
+    if (currentPage === 1) return;
 
-  if(isLoading) {
-    return  <div id="container">
-              <div className="stick"></div>
-              <div className="stick"></div>
-              <div className="stick"></div>
-              <div className="stick"></div>
-              <div className="stick"></div>
-              <div className="stick"></div>
-              <h1 className="tit-Loadng">Loading...</h1>
-            </div>
-  }
-// console.log(`displayData = ${JSON.stringify(displayData)}`);
-// console.log('initialData:', initialData);
+    const loadMoreData = () => {
+      const start = (currentPage - 1) * 5 // 데이터를 잘라내기 시작하는 인덱스
+      const end = currentPage * 5 // 데이터를 잘라내는 끝 인덱스
+console.log(`로딩 데이터 범위: ${start} - ${end}`);
+      const slicedData = initialData.slice(start, end)
+      setDisplayData((prev) => [...prev, ...slicedData])
+      setIsLoading(false)
+    }
+
+    loadMoreData()
+  }, [currentPage])
+  // INF[e]
+
   return (
     <>
-      <Header></Header>
-      <div className='box-wrap'>
-      {displayData.length === 0 && <p>Loading more items...</p>}
-      {
-        displayData.map((item, idx) => {
-          const sliceImg = item.screenshotUrls.slice(0,3) // 0번째부터 2번째까지(원본배열 안건드림)
-          return  <div className='box' key={idx}>
-                    <div className='top'>
-                        <div className='left'>
-                          <img src={item.artworkUrl60} alt={item.trackName}/>
-                          <div className='center'>
-                            <span className='title'>{item.trackName}</span>
-                            {/* <span className='subtext'>{item.shortDescription}</span> */}
-                            <span className='genre'>{item.primaryGenreName}</span>
-                          </div>
-                        </div>                
-                        <div className='right'><button type='button'>받기</button></div>
-                    </div>
-                    <div className='middle'><Star item={item}></Star></div>
-                    <div className='bottom'>
-                      <ul className='imgbox'>
-                        {
-                          sliceImg.map((value, idx) => {
-                            return <li key={idx}><img src={value} alt=""/></li>
-                          })
-                        }                        
-                      </ul>
-                    </div>
-                  </div>
-          })
-      }
-      <div ref={observerRef} className="observerTarget"></div>
+      <Header />
+      <div className="box-wrap">
+        {displayData.map((item, idx) => (
+          <div className="box" key={idx}>
+            <div className="top">
+              <div className="left">
+                <img src={item.artworkUrl60} alt={item.trackName} />
+                <div className="center">
+                  <span className="title">{item.trackName}</span>
+                  <span className="genre">{item.primaryGenreName}</span>
+                </div>
+              </div>
+              <div className="right"><button type="button">받기</button></div>
+            </div>
+            <div className="middle"><Star item={item} /></div>
+            <div className="bottom">
+              <ul className="imgbox">
+                {item.screenshotUrls.slice(0, 3).map((url, idx) => (
+                  <li key={idx}><img src={url} alt="" /></li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+        <div ref={observerRef} style={{ height: '50px', backgroundColor: 'transparent' }}></div> {/* 관찰 대상 스타일 조정 */}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default List
+export default List;

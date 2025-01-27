@@ -4,8 +4,8 @@ import { fetchSearchWord } from '../api/searchApi'
 import { useNavigate } from 'react-router-dom'
 
 const Search = () => {
-    const [inSearchWord, setInSearchWord] = useState('')
-    const [resultSearchWord, setResultSearchWord] = useState('')
+    const [inSearchWord, setInSearchWord] = useState('') // 입력하는중의 검색어
+    const [resultSearchWord, setResultSearchWord] = useState('') // 입력완료된 검색어
 
     const navigate = useNavigate()
     const queryClient = useQueryClient()
