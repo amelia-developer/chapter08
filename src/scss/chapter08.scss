@@ -364,11 +364,29 @@ header {
             }
         } // ul종료
         .description-box {
-            padding-top: 0.5rem;
-            border-top: 1px solid #ccc;
-            box-sizing: border-box;
-            color: #000;
-            font-size: 0.8rem;
+            display: flex;
+            position: relative;
+            .text {
+                padding: 1rem 0;
+                border-top: 1px solid #ccc;
+                box-sizing: border-box;
+                color: #000;
+                font-size: 0.8rem;
+                height: 100px;
+                overflow: hidden;
+            } // text종료
+            button {
+                color: #007AFF;
+                font-size: 0.8rem;
+                border: 0;
+                padding: 0;
+                background-color: transparent;
+                white-space: nowrap;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                font-weight: 600;
+            }
         } // description-box종료
     } // preview-box종료
 } // detail-wrap종료

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import StarDetail from './StarDetail'
 
@@ -10,12 +10,19 @@ const Detail = () => {
 console.log(`idx = ${JSON.stringify(idx)}`);
 console.log(`item = ${JSON.stringify(item)}`);
 
+    const [moreText, setMoreText] = useState(false)
+
     // 현재날짜기준으로 releaseDate사이의 기간
     let now = new Date() // 현재시간
     let date = new Date(item.currentVersionReleaseDate) // 특정일기준 date객체생성
     
     const diffDate = Math.floor(Math.abs((now.getTime() - date.getTime())/(1000*60*60*24)))
 
+    const onMoreDescription = () => {
+        setMoreText(true)
+    }
+console.log(`moreText = ${JSON.stringify(moreText)}`);
+// TODO:moreText가 true이면 숨겨놓았던 디스크립션 보여주기 + Detail에서 상단 헤더부분해야함
     return (
         <>
             <div className='detail-wrap'>
@@ -73,14 +80,17 @@ console.log(`item = ${JSON.stringify(item)}`);
                             })
                         }
                     </ul>
-                    <p className='description-box'>
-                        {item.description.split(/(?:\r\n|\r|\n)/g).map((value, index) => (
-                            <React.Fragment key={index}> {/**React.fragment는 불필요한 태그를 제거하고, 그룹화하기위해 사용 */}
-                                {value}
-                                <br />
-                            </React.Fragment>
-                        ))}
-                    </p>
+                    <div className='description-box'>
+                        <p className='text'>
+                            {item.description.split(/(?:\r\n|\r|\n)/g).map((value, index) => (
+                                <React.Fragment key={index}> {/**React.fragment는 불필요한 태그를 제거하고, 그룹화하기위해 사용 */}
+                                    {value}
+                                    <br />
+                                </React.Fragment>
+                            ))}
+                        </p>
+                        <button type='button' onClick={onMoreDescription}>더 보기</button>
+                    </div>
                 </div>
             </div>
         </>
