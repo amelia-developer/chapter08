@@ -22,7 +22,7 @@ console.log(`item = ${JSON.stringify(item)}`);
         setMoreText(true)
     }
 console.log(`moreText = ${JSON.stringify(moreText)}`);
-// TODO:moreText가 true이면 숨겨놓았던 디스크립션 보여주기 + Detail에서 상단 헤더부분해야함
+// TODO:Detail에서 상단 헤더부분해야함
     return (
         <>
             <div className='detail-wrap'>
@@ -81,7 +81,7 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
                         }
                     </ul>
                     <div className='description-box'>
-                        <p className='text'>
+                        <p className={moreText ? 'text more' : 'text'}>
                             {item.description.split(/(?:\r\n|\r|\n)/g).map((value, index) => (
                                 <React.Fragment key={index}> {/**React.fragment는 불필요한 태그를 제거하고, 그룹화하기위해 사용 */}
                                     {value}
@@ -89,8 +89,14 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
                                 </React.Fragment>
                             ))}
                         </p>
-                        <button type='button' onClick={onMoreDescription}>더 보기</button>
+                        {
+                            moreText === false ? <button type='button' onClick={onMoreDescription}>더 보기</button> : null
+                        }
+                        
                     </div>
+                </div>
+                <div className='developer-info'>
+                    {/**TODO:여기개발자정보보여주는것부터 */}
                 </div>
             </div>
         </>

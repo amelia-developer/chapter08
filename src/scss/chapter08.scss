@@ -374,6 +374,10 @@ header {
                 font-size: 0.8rem;
                 height: 100px;
                 overflow: hidden;
+                &.more {
+                    overflow: visible;
+                    height: auto;
+                }
             } // text종료
             button {
                 color: #007AFF;
@@ -389,6 +393,9 @@ header {
             }
         } // description-box종료
     } // preview-box종료
+    .developer-info {
+        
+    } // developer-info종료료
 } // detail-wrap종료
 
 // 로딩[s]
