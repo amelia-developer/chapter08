@@ -10,6 +10,12 @@ const Detail = () => {
 console.log(`idx = ${JSON.stringify(idx)}`);
 console.log(`item = ${JSON.stringify(item)}`);
 
+    // 현재날짜기준으로 releaseDate사이의 기간
+    let now = new Date() // 현재시간
+    let date = new Date(item.currentVersionReleaseDate) // 특정일기준 date객체생성
+    
+    const diffDate = Math.floor(Math.abs((now.getTime() - date.getTime())/(1000*60*60*24)))
+
     return (
         <>
             <div className='detail-wrap'>
@@ -54,8 +60,27 @@ console.log(`item = ${JSON.stringify(item)}`);
                     <p>새로운 소식 &gt;</p>
                     <div className='top'>
                         <span className='text1'>버전 {item.version}</span>
-                        <span className='text2'>3일전</span>
+                        <span className='text2'>{diffDate}일전</span>
                     </div>
+                    <p className='text-releaseNote'>{item.releaseNotes}</p>
+                </div>
+                <div className='preview-box'>
+                    <p>미리 보기</p>
+                    <ul>
+                        {
+                            item.screenshotUrls.map((value, idx) => {
+                                return <li key={idx}><img src={value} alt=""/></li>
+                            })
+                        }
+                    </ul>
+                    <p className='description-box'>
+                        {item.description.split(/(?:\r\n|\r|\n)/g).map((value, index) => (
+                            <React.Fragment key={index}> {/**React.fragment는 불필요한 태그를 제거하고, 그룹화하기위해 사용 */}
+                                {value}
+                                <br />
+                            </React.Fragment>
+                        ))}
+                    </p>
                 </div>
             </div>
         </>

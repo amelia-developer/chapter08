@@ -301,7 +301,7 @@ header {
                 white-space: nowrap;
                 &.title {
                     color: #ccc;
-                    font-size: 0.65rem;
+                    font-size: 0.6rem;
                 }
                 &.sub-text1 {
                     color: #666;
@@ -330,7 +330,47 @@ header {
             font-weight: 300;
             font-size: 0.7rem;
         }
+        .text-releaseNote {
+            margin-bottom: 2rem;
+            padding-top: 0.8rem;
+            color: #000;
+            font-size: 0.8rem;
+            font-weight: normal;
+        }
     } // news-box종료
+    .preview-box {
+        p {
+            margin: 0;
+            font-weight: 600;
+            color: #000;
+            font-size: 1.5rem;
+        }
+        ul {
+            margin: 2rem 0 0 0;
+            padding: 0 0 2rem 0;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            li {
+                list-style: none;
+                flex: 0 0 calc((100% - (2rem * 4)) / 1);
+                img {
+                    border: 1px solid #ccc;
+                    box-sizing: border-box;
+                    border-radius: 10px;
+                    display: block;
+                    width: 100%;
+                }
+            }
+        } // ul종료
+        .description-box {
+            padding-top: 0.5rem;
+            border-top: 1px solid #ccc;
+            box-sizing: border-box;
+            color: #000;
+            font-size: 0.8rem;
+        } // description-box종료
+    } // preview-box종료
 } // detail-wrap종료
 
 // 로딩[s]
