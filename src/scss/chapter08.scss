@@ -191,6 +191,148 @@ header {
     }
 } // box종료
 
+.detail-wrap {
+    padding: 20px;
+    .top {
+        display: flex;
+        .left {
+            border: 1px solid #ccc;
+            border-radius: 0.6rem;
+            box-sizing: border-box;
+            width: 30%;
+            img {
+                width: 100%;
+                height: inherit;
+                display: block;
+                border-radius: inherit;
+            }
+        } // left종료
+        .right {
+            width: 70%;
+            position: relative;
+            span {
+                display: block;
+            }
+            .title {
+                font-size: 0.8rem;
+                display: flex;
+                align-items: center;
+                font-weight: 700;
+                color: #000;
+                padding-left: 12px;
+                height: auto;
+                width: 94%;
+            }
+            .gubun {
+                font-size: 0.6rem;
+                color: #8E8E93;
+                display: block;
+                width: 94%;
+                padding: 6px 0 0 12px;
+            }
+            button {
+                position: absolute;
+                bottom: 0;
+                left: 12px;
+                width: 4rem;
+                height: 2rem;
+                padding: 0;
+                border: 0;
+                background-color: #007AFF;
+                border-radius: 20px;
+                color: #fff;
+                font-weight: 700;
+            }
+        } // right종료
+    } // top종료
+    .top-sub-menu {
+        margin: 2rem 0;
+        ul {
+          margin: 0;
+          padding: 1rem 0;
+          border-top: 1px solid #ccc;
+          border-bottom: 1px solid #ccc;
+          box-sizing: border-box;
+          overflow-x: auto;
+          display: flex;
+          li {
+            list-style: none;
+            border-right: 1px solid #ccc;
+            box-sizing: border-box;
+            width: 20%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            flex-direction: column;
+            &:last-child {
+                border-right: none;
+            }
+            .rate-box {
+                display: flex;
+                justify-content: center;
+                .star-rating {
+                    color: #989898;
+                    position: relative;
+                    unicode-bidi: bidi-override;
+                    width: max-content;
+                    -webkit-text-fill-color: transparent;
+                    -webkit-text-stroke-width: 1.3px;
+                    -webkit-text-stroke-color: #8E8E93;
+                    .star_rating_fill {
+                        color: #8E8E93;
+                        padding: 0;
+                        position: absolute;
+                        z-index: 1;
+                        display: flex;
+                        top: 0;
+                        left: 0;
+                        overflow: hidden;
+                        -webkit-text-fill-color: #8E8E93;
+                    }
+                    .star_rating_base {
+                        z-index: 0;
+                        padding: 0;
+                    }
+                }
+            } // rate-box종료
+            span.sub-text1, span.sub-text2, span.title {
+                display: block;
+                text-align: center;
+                white-space: nowrap;
+                &.title {
+                    color: #ccc;
+                    font-size: 0.65rem;
+                }
+                &.sub-text1 {
+                    color: #666;
+                    font-weight: 700;
+                    padding-top: 0.6rem;
+                    font-size: 0.7rem;
+                }
+                &.sub-text2 {
+                    font-size: 0.65rem;
+                    color: #666;
+                }
+            } // span.sub-text1, span.sub-text2종료
+          } // li종료
+        } // ul종료
+    } // top-sub-menu종료
+    .news-box {
+        p {
+            margin: 0 0 0.5rem 0;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .top {
+            display: flex;
+            justify-content: space-between;
+            color: #ccc;
+            font-weight: 300;
+            font-size: 0.7rem;
+        }
+    } // news-box종료
+} // detail-wrap종료
+
 // 로딩[s]
 $text_color: #DC554F;
 $stick_color: #DC554F; //Changes the colour of all sticks
