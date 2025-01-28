@@ -22,7 +22,22 @@ console.log(`item = ${JSON.stringify(item)}`);
         setMoreText(true)
     }
 console.log(`moreText = ${JSON.stringify(moreText)}`);
-// TODO:Detail에서 상단 헤더부분해야함
+
+    // userRatingCurrentVersion 의 숫자 포맷팅
+    const number = Number(item.userRatingCountForCurrentVersion)
+    let decimal = 0
+    if(number >= 10000) {
+        decimal = (number / 10000).toFixed(1) + '만'
+    } else if (number >= 1000) {
+        decimal = (number / 1000).toFixed(1) + '천' 
+    } else {
+        decimal = number
+    }
+
+    const onTopDownInfo = () => {
+console.log(`눌렀음눌렀음`)
+    }
+// TODO:Detail에서 상단 헤더부분해야함 + topDown버튼부터하면됨
     return (
         <>
             <div className='detail-wrap'>
@@ -96,7 +111,54 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
                     </div>
                 </div>
                 <div className='developer-info'>
-                    {/**TODO:여기개발자정보보여주는것부터 */}
+                    <div className='left'>
+                        <span className='text1'>{item.artistName}</span>
+                        <span className='text2'>개발자</span>
+                    </div>
+                    <div className='right'><span className='text1'>&gt;</span></div>
+                </div>
+                <div className='review-box'>
+                    <p className='title'>평가 및 리뷰 <span>&gt;</span></p>
+                    <div className='inner'>
+                        <div className='left'>
+                            <span className='text1'>{item.averageUserRating.toFixed(1)}</span>
+                        </div>
+                        <div className='right'>
+                            <span className='text1'><StarDetail item={item}/></span>
+                            <span className='text2'>{decimal}개의 평가</span>
+                        </div>
+                    </div>
+                </div>
+                <div className='info-box'>
+                    <p className='title'>정보</p>
+                    <ul>
+                        <li>
+                            <span className='title'>카테고리</span>
+                            <span className='text'>쇼핑</span>
+                        </li>
+                        <li>
+                            <span className='title'>호환성</span>
+                            <span className='text'>이 iPhone에서 사용가능<button type='button' onClick={onTopDownInfo}>▽</button></span>
+                            <ol>
+                                <li>
+                                    <span className='sub-title'>iPhone</span>
+                                    <span className='sub-text'>iOS 14.0 이상 필요</span>
+                                </li>
+                                <li>
+                                    <span className='sub-title'>iPad</span>
+                                    <span className='sub-text'>ipadOS 14.0 이상 필요</span>
+                                </li>
+                                <li>
+                                    <span className='sub-title'>iPad touch</span>
+                                    <span className='sub-text'>iOS 14.0 이상 필요</span>
+                                </li>
+                                <li>
+                                    <span className='sub-title'>Apple Vision</span>
+                                    <span className='sub-text'>visionOS 1.0 이상 필요</span>
+                                </li>
+                            </ol>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </>

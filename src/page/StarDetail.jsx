@@ -7,7 +7,7 @@ const StarDetail = ({item}) => {
     // const ratingToPercent = {
     //     width: `${(downloadScore / 5) * 100}%`
     // }
-
+    
     return (
         <>
             <div className='rate-box'>
