@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import StarDetail from './StarDetail'
+import DetailHeader from './inc/DetailHeader'
 
 const Detail = () => {
     const location = useLocation()
 
     const idx = location.state.idx
     const item = location.state.item
-console.log(`idx = ${JSON.stringify(idx)}`);
-console.log(`item = ${JSON.stringify(item)}`);
+// console.log(`idx = ${JSON.stringify(idx)}`);
+// console.log(`item = ${JSON.stringify(item)}`);
 
     const [moreText, setMoreText] = useState(false)
+    const [showText, setShowText] = useState(false)
 
     // 현재날짜기준으로 releaseDate사이의 기간
     let now = new Date() // 현재시간
@@ -35,11 +37,12 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
     }
 
     const onTopDownInfo = () => {
-console.log(`눌렀음눌렀음`)
+        setShowText(true)
     }
-// TODO:Detail에서 상단 헤더부분해야함 + topDown버튼부터하면됨
+
     return (
         <>
+            <DetailHeader item={item}></DetailHeader>
             <div className='detail-wrap'>
                 <div className='top'>
                     <div className='left'><img src={item.artworkUrl100} alt={item.trackName}/></div>
@@ -136,9 +139,9 @@ console.log(`눌렀음눌렀음`)
                             <span className='title'>카테고리</span>
                             <span className='text'>쇼핑</span>
                         </li>
-                        <li>
+                        <li className={showText ? 'on' : ''}>
                             <span className='title'>호환성</span>
-                            <span className='text'>이 iPhone에서 사용가능<button type='button' onClick={onTopDownInfo}>▽</button></span>
+                            <span className={showText ? 'text on' : 'text'}>이 iPhone에서 사용가능<button type='button' onClick={onTopDownInfo}>▽</button></span>
                             <ol>
                                 <li>
                                     <span className='sub-title'>iPhone</span>
@@ -157,6 +160,18 @@ console.log(`눌렀음눌렀음`)
                                     <span className='sub-text'>visionOS 1.0 이상 필요</span>
                                 </li>
                             </ol>
+                        </li>
+                        <li>
+                            <span className='title'>연령 등급</span>
+                            <span className='text'>{item.contentAdvisoryRating}</span>
+                        </li>
+                        <li>
+                            <span className='title'>제공자</span>
+                            <span className='text'>{item.artistName}</span>
+                        </li>
+                        <li>
+                            <span className='title'>저작권</span>
+                            <span className='text'>{item.sellerUrl}</span>
                         </li>
                     </ul>
                 </div>

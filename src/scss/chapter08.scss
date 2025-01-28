@@ -192,7 +192,7 @@ header {
 } // box종료
 
 .detail-wrap {
-    padding: 20px;
+    padding: 58px 20px 20px 20px;
     .top {
         display: flex;
         .left {
@@ -321,7 +321,7 @@ header {
         p {
             margin: 0 0 0.5rem 0;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 1.5rem;
         }
         .top {
             display: flex;
@@ -490,6 +490,13 @@ header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+                &.on {
+                    flex-direction: column;
+                    align-items: baseline;
+                    .title {
+                        margin-bottom: 0.8rem;
+                    }
+                } // on종료
                 .title {
                    font-size: 0.6rem;
                    color: #ccc;
@@ -498,6 +505,32 @@ header {
                 .text {
                     color: #000;
                     font-size: 0.6rem;
+                    &.on + ol {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 0;
+                        width: 100%;
+                        li {
+                            padding: 0;
+                            display: block;
+                            border-bottom: none;
+                            margin-bottom: 0.8rem;
+                            span {
+                                display: block;
+                                &.sub-title {
+                                    color: #000;
+                                    font-weight: 700;    
+                                }
+                                &.sub-text {
+                                    color: #000;
+                                    font-size: 0.8rem;
+                                }
+                            }
+                        } // li종료
+                    } // text.on + ol종료
+                    &.on {
+                        display: none;
+                    }
                 } // text종료
                 button {
                     margin: 0;
@@ -513,6 +546,55 @@ header {
         } // ul종료
     } // info-box종료
 } // detail-wrap종료
+
+.detail-top-box {
+    padding: 0 20px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 3;
+    background-color: #fff;
+    padding: 12px 0;
+    &.on {
+        background-color: rgba(255,255,255,0.5);
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid #ccc;
+        img, .btn-open {
+            opacity: 1;
+            transition: 0.8s;
+        }
+    }
+    .btn-search {
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: transparent;
+        color: #007AFF;
+        font-weight: 400;
+        font-size: 1rem;
+        margin-left: 10px;
+    }
+    img {
+        width: 30px;
+        height: 30px;
+        opacity: 0;
+    }
+    .btn-open {
+        border: none;
+        padding: 0;
+        margin: 0;
+        background-color: #007AFF;
+        border-radius: 20px;
+        width: 4rem;
+        height: 2rem;
+        color: #fff;
+        opacity: 0;
+        margin-right: 10px;
+    }        
+} // detail-top-box종료
 
 // 로딩[s]
 $text_color: #DC554F;
