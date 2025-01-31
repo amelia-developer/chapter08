@@ -34,8 +34,7 @@ const List = () => {
   }, [location.state, navigate])
 
   // if (!location.state?.data) return null; // location.state가 없으면 렌더링하지 않음
-
-
+  
   const initialData = dataFromState || cacheData || [];
 
   useEffect(() => {

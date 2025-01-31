@@ -14,8 +14,7 @@ const Detail = () => {
     useEffect(() => {
         if (!item) {
             alert("잘못된 접근입니다. 메인 페이지로 이동합니다.")
-            navigate(-1)
-            return null
+            navigate("/")
         }    
     }, [location.state, navigate])
 
