@@ -312,6 +312,10 @@ header {
                 &.sub-text2 {
                     font-size: 0.65rem;
                     color: #666;
+                    max-width: 19vw;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
                 }
             } // span.sub-text1, span.sub-text2종료
           } // li종료
@@ -368,7 +372,8 @@ header {
             position: relative;
             margin-bottom: 2rem;
             .text {
-                padding: 1rem 0;
+                margin: 1rem 0 2rem 0;
+                padding-top: 1rem;
                 border-top: 1px solid #ccc;
                 box-sizing: border-box;
                 color: #000;

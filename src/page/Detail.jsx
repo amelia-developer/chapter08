@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import StarDetail from './StarDetail'
 import DetailHeader from './inc/DetailHeader'
 
 const Detail = () => {
     const location = useLocation()
+    const navigate = useNavigate()
 
-    const idx = location.state.idx
-    const item = location.state.item
-// console.log(`idx = ${JSON.stringify(idx)}`);
+    // const idx = location.state.idx
+    const item = location.state?.item || null
+    
+    // 검색어 없이, 주소 걍 복붙해서 새창으로 박을때
+    useEffect(() => {
+        if (!item) {
+            alert("잘못된 접근입니다. 메인 페이지로 이동합니다.")
+            navigate(-1)
+            return null
+        }    
+    }, [location.state, navigate])
+
 // console.log(`item = ${JSON.stringify(item)}`);
 
     const [moreText, setMoreText] = useState(false)
     const [showText, setShowText] = useState(false)
+   
+    if (!item) return null
 
     // 현재날짜기준으로 releaseDate사이의 기간
     let now = new Date() // 현재시간

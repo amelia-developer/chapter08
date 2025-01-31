@@ -26,7 +26,7 @@ const Search = () => {
             },
             enabled: !!resultSearchWord, // resultSearchWord가 비어있지 않을 때만 쿼리 실행
             refetchOnWindowFocus: false,  // 화면 포커스 시 다시 불러오지 않도록 설정
-            staleTime: 5*60*1000, // 데이터가 즉시 stale 상태로 간주되도록 설정 -> 데이터가 5분동안 최신으로 간주주
+            staleTime: 5*60*1000, // 데이터가 즉시 stale 상태로 간주되도록 설정 -> 데이터가 5분동안 최신으로 간주
             cacheTime: 10*60*1000 // 이전캐시쿼리가 바로 삭제 -> 데이터는 10분동안 캐시에서 유지
         }
     )
@@ -39,8 +39,7 @@ const Search = () => {
 
     useEffect(() => {
         if (resultSearchWord && data) {
-// console.log(`data는 = ${JSON.stringify(data)}`)
-            navigate(`/list`, {state: {data}}) // 데이터를 state로 전달해서 list컴포넌트로 이동
+            navigate(`/list`, {state: { data }}) // 데이터를 state로 전달해서 list컴포넌트로 이동
         }
     }, [resultSearchWord, data])
     

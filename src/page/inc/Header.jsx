@@ -4,14 +4,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { fetchSearchWord } from '../../api/searchApi';
 
 const Header = () => {
-  const [inSearchWord, setInSearchWord] = useState('');
-  const [resultSearchWord, setResultSearchWord] = useState('');
+  const [inSearchWord, setInSearchWord] = useState('')
+  const [resultSearchWord, setResultSearchWord] = useState('')
   
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
   const onSearchWord = (e) => {
-    setInSearchWord(e.target.value);
+    setInSearchWord(e.target.value)
   };
 
   const { data } = useQuery(
@@ -31,14 +31,20 @@ const Header = () => {
   const onSearchSubmit = async (e) => {
     e.preventDefault();
     setResultSearchWord(inSearchWord);
-    queryClient.invalidateQueries(['resultSearchWord']);
-  };
+    queryClient.invalidateQueries(['resultSearchWord'])
+  }
 
   useEffect(() => {
     if (resultSearchWord && data) {
-      navigate(`/list`, { state: { data } });
+      navigate(`/list`, { state: { data } })
     }
-  }, [resultSearchWord, data, navigate]);
+    
+  }, [resultSearchWord, data, navigate])
+
+  const onCancel = () => {
+    alert(`search화면으로 돌아갑니다`)
+    navigate(`/`)
+  }
 
   return (
     <header>
@@ -48,7 +54,7 @@ const Header = () => {
           <button type="submit" className='btn-search'><span>🔍</span></button>
         </label>
       </form>
-      <button type="button" className='btn-cancel'><span>취소</span></button>
+      <button type="button" className='btn-cancel' onClick={onCancel}><span>취소</span></button>
     </header>
   );
 };

@@ -6,7 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import List from './page/List'
-import Detail from './page/Detail';
+import Detail from './page/Detail'
 
 const queryClient = new QueryClient()
 
