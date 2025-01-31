@@ -16,7 +16,7 @@ const Search = () => {
 
     // 쿼리 실행
     // A. useQuery는 데이터를 서버에서 가져오는 목적
-    const {data} = useQuery( // useQuery(서버에서 데이터 가져오기 위한 함수)
+    const {data, isLoading} = useQuery( // useQuery(서버에서 데이터 가져오기 위한 함수)
         {
             queryKey: ['resultSearchWord', resultSearchWord], // resultSearchWord가 변경되면 쿼리 실행
             queryFn: async() => {
@@ -43,6 +43,17 @@ const Search = () => {
         }
     }, [resultSearchWord, data])
     
+    if(isLoading) {
+        return  <div id="container">
+                    <div className="stick"></div>
+                    <div className="stick"></div>
+                    <div className="stick"></div>
+                    <div className="stick"></div>
+                    <div className="stick"></div>
+                    <div className="stick"></div>
+                    <h1 className="tit-Loadng">Loading...</h1>
+                </div>
+    }
     return (
         <>
             <div className='search-box'>

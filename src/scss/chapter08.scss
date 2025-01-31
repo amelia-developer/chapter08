@@ -50,7 +50,7 @@ header {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #f0f0f0;
+    background-color: #ff3d51;
     form {
         width: 80%;
     }
@@ -60,10 +60,17 @@ header {
         border: 1px solid #ccc;
         border-radius: 5px;
         font-size: 16px;
+        background-color: #fff;
     }
     button {
         width: 20%;
         height: 40px;
+        border-radius: none;
+        background-color: #03c75a;
+        border: none;
+        margin: 0;
+        padding: 0;
+        color: #fff;
     }
 } // search-box종료
 
