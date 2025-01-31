@@ -22,7 +22,7 @@ const List = () => {
   const { data: cacheData } = useQuery({
     queryKey: ['resultSearchWord', searchQuery],
     queryFn: () => fetchSearchWord(searchQuery),
-    enabled: !!location.state?.data // location.state?.data가 있을 때에만 실행
+    enabled: !!location.state?.data, // location.state?.data가 있을 때에만 실행
   });
 
   // 검색어 없이, 주소 걍 복붙해서 새창으로 박을때
