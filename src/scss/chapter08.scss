@@ -356,6 +356,9 @@ header {
             color: #000;
             font-size: 1.5rem;
         }
+        span {
+            font-size: 0.8rem;
+        }
         ul {
             margin: 2rem 0 0 0;
             padding: 0 0 2rem 0;
@@ -557,6 +560,48 @@ header {
             } // li종료
         } // ul종료
     } // info-box종료
+    &.zoom {
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        position: relative;
+        button {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            border: none;
+            padding: 0;
+            margin: 0;
+            background-color: transparent;
+            color: #007AFF;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .zoom-box {
+            ul {
+                margin: 0;
+                padding: 0;
+                display: flex;
+                gap: 2rem;
+                overflow-x: auto;
+                li {
+                    list-style: none;
+                    flex-grow: 0;
+                    flex-shrink: 0;
+                    width: calc((100% - (0.5rem * 5)) / 1);
+                    img {
+                        border: 1px solid #ccc;
+                        box-sizing: border-box;
+                        border-radius: 10px;
+                        display: block;
+                        width: 100%;
+                    }
+                } // li종료
+            }
+        } // zoom-box종료
+    } // zoom종료
 } // detail-wrap종료
 
 .detail-top-box {
@@ -607,6 +652,8 @@ header {
         margin-right: 10px;
     }        
 } // detail-top-box종료
+
+
 
 // 로딩[s]
 $text_color: #DC554F;

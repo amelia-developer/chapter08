@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import List from './page/List'
 import Detail from './page/Detail'
+import Zoom from './page/Zoom'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
 
 const queryClient = new QueryClient()
@@ -28,6 +29,7 @@ root.render(
               <Route path="/" element={<App />}></Route>
               <Route path="/list" element={<List />}></Route>
               <Route path="/detail" element={<Detail />}></Route>
+              <Route path="/zoom" element={<Zoom />}></Route>
             </Routes>
           </HelmetProvider>
         </QueryClientProvider>

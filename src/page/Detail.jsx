@@ -51,6 +51,9 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
         setShowText(true)
     }
 
+    const onZoom = (value, item) => {
+        navigate(`/zoom`, {state : {value , item}})
+    }
     return (
         <>
             <DetailHeader item={item}></DetailHeader>
@@ -102,10 +105,11 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
                 </div>
                 <div className='preview-box'>
                     <p>미리 보기</p>
+                    <span>이미지를 클릭하면 확대되어 보입니다</span>
                     <ul>
                         {
                             item.screenshotUrls.map((value, idx) => {
-                                return <li key={idx}><img src={value} alt=""/></li>
+                                return <li key={idx} onClick={() => onZoom(value, item)}><img src={value} alt=""/></li>
                             })
                         }
                     </ul>
