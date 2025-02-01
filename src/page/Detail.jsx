@@ -66,8 +66,8 @@ console.log(`moreText = ${JSON.stringify(moreText)}`);
                 <div className='top-sub-menu'>
                     <ul>
                         <li>
-                            <span className='title'>1.4만개의 평가</span>
-                            <span className='sub-text1'>4.3</span>
+                            <span className='title'>{decimal}개의 평가</span>
+                            <span className='sub-text1'>{item.averageUserRating.toFixed(1)}</span>
                             <span className='sub-text2'><StarDetail item={item} /></span>
                         </li>
                         <li>

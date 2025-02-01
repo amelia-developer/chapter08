@@ -4,9 +4,9 @@ import "./scss/chapter08.scss"
 
 function App() {
   return (
-    <div className="App">
-        <Search></Search>
-    </div>
+      <div className="App">          
+          <Search></Search>
+      </div>
   );
 }
 
