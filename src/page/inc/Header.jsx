@@ -40,7 +40,7 @@ const Header = () => {
       queryClient.invalidateQueries(['resultSearchWord'])
       navigate(`/list`, { state: { data } })
     }
-  }, [resultSearchWord, data, navigate])
+  }, [resultSearchWord, data, navigate, queryClient])
 
   useEffect(() => {
     let timer;

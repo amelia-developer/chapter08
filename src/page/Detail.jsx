@@ -16,7 +16,7 @@ const Detail = () => {
             alert("잘못된 접근입니다. 메인 페이지로 이동합니다.")
             navigate("/")
         }    
-    }, [location.state, navigate])
+    }, [location.state, navigate, item])
 
 // console.log(`item = ${JSON.stringify(item)}`);
 

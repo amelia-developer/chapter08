@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Header from './inc/Header';
 import Star from './Star';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -35,7 +35,10 @@ const List = () => {
 
   // if (!location.state?.data) return null; // location.state가 없으면 렌더링하지 않음
   
-  const initialData = dataFromState || cacheData || [];
+  // const initialData = dataFromState || cacheData || []
+  const initialData = useMemo(() => { // useMemo로 감싸서 initialData의 불필요한 재계산 방지
+    return dataFromState || cacheData || []
+  }, [dataFromState, cacheData])
 
   useEffect(() => {
     if (initialData.length > 0) {
@@ -115,7 +118,7 @@ console.log(`scrollPosition = ${JSON.stringify(scrollPosition)}`)
       setDisplayData([])
       scrollPositionRef.current = null
     }
-  }, [searchQuery])
+  }, [searchQuery, location.state?.data?.searchQuery])
 
   const onDetail = (idx, item) => {
     const scrollPosition = window.scrollY

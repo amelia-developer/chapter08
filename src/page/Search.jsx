@@ -41,7 +41,7 @@ const Search = () => {
         if (resultSearchWord && data) {
             navigate(`/list`, {state: { data }}) // 데이터를 state로 전달해서 list컴포넌트로 이동
         }
-    }, [resultSearchWord, data])
+    }, [resultSearchWord, data, navigate])
     
     if(isLoading) {
         return  <div id="container">
