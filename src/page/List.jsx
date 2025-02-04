@@ -4,6 +4,7 @@ import Star from './Star';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSearchWord } from '../api/searchApi';
+import { throttle } from 'lodash';
 
 const List = () => {
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지
@@ -77,26 +78,26 @@ console.log(`scrollPosition = ${JSON.stringify(scrollPosition)}`)
   }, [isDataLoaded, initialData])
 
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = throttle(() => {
       if (observerRef.current) {
         const { top } = observerRef.current.getBoundingClientRect();
 
         if (top <= window.innerHeight && !touchBottom) {
-          console.log(`스크롤이 화면 끝에 닿았음`);
-          setCurrentPage((prev) => prev + 1);
-          setTouchBottom(true);
+          console.log(`스크롤이 화면 끝에 닿았음`)
+          setCurrentPage((prev) => prev + 1)
+          setTouchBottom(true)
         }
 
         if (top > window.innerHeight && touchBottom) {
-          setTouchBottom(false);
+          setTouchBottom(false)
         }
       }
-    };
-    window.addEventListener('scroll', handleScroll);
+    },200) // 200ms마다 한번만 실행되게 쓰로틀 적용
+    window.addEventListener('scroll', handleScroll)
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, [touchBottom]);
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [touchBottom])
 
   useEffect(() => {
     if (currentPage === 1) return
@@ -126,7 +127,7 @@ console.log(`displayData = ${JSON.stringify(displayData)}`);
       setDisplayData(dataFromState.slice(0, 5)) // 처음 5개만 표시
       setCurrentPage(1) // 페이지 초기화
     }
-  }, [dataFromState])
+  }, [initialData, dataFromState])
 
  // 검색어가 바뀌면 로컬스토리지 초기화
   useEffect(() => {
