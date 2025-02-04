@@ -16,8 +16,8 @@ const List = () => {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const searchQuery = location.state?.data?.searchQuery;
-  const dataFromState = location.state?.data; // search에서 query로 전달받은 데이터
+  const searchQuery = location.state?.data?.searchQuery // data객체안에있는 searchQuery속성(검색어가 필요할때)
+  const dataFromState = location.state?.data // data객체(검색한 데이터관련 전체가 필요할때)
 
   const { data: cacheData } = useQuery({
     queryKey: ['resultSearchWord', searchQuery],
@@ -36,6 +36,8 @@ const List = () => {
   // if (!location.state?.data) return null; // location.state가 없으면 렌더링하지 않음
   
   // const initialData = dataFromState || cacheData || []
+  // dataFromState : 검색한 데이터 (=캐싱이 안된, 새로검색한 데이터 전부)
+  // cacheData: 이전에 검색한 데이터 (=캐싱된, 이전에검색한 데이터 전부)
   const initialData = useMemo(() => { // useMemo로 감싸서 initialData의 불필요한 재계산 방지
     return dataFromState || cacheData || []
   }, [dataFromState, cacheData])
@@ -108,6 +110,23 @@ console.log(`scrollPosition = ${JSON.stringify(scrollPosition)}`)
 
     loadMoreData()
   }, [currentPage, initialData])
+
+  // 캐시가 없으면 검색 결과를 반영
+  useEffect(() => {
+    if (!cacheData && dataFromState) {
+      setDisplayData(dataFromState.slice(0, 5));
+    }
+  }, [cacheData, dataFromState])
+
+console.log(`displayData = ${JSON.stringify(displayData)}`);
+
+// 새로운검색결과가 오면 initialData업데이트
+  useEffect(() => {
+    if (dataFromState) {
+      setDisplayData(dataFromState.slice(0, 5)) // 처음 5개만 표시
+      setCurrentPage(1) // 페이지 초기화
+    }
+  }, [dataFromState])
 
  // 검색어가 바뀌면 로컬스토리지 초기화
   useEffect(() => {
