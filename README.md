@@ -34,6 +34,6 @@
 
   <h2>ISSUE</h2>
   <ul>
-    <li><span>2025-03-26: appStore API의 CORS 이슈(solution 진행중)</li>
+    <li><span>2025-03-26(수): appStore API의 CORS 이슈(solution 진행중)</li>
   </ul>
 </p>
