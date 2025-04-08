@@ -34,7 +34,7 @@
 
   <h2>ISSUE</h2>
   <ul>
-    <li><span>2025-03-26(수): appStore API의 CORS 이슈 -> 원인파악 잘못함</li>
+    <li><span>2025-03-26(수): appStore API의 CORS 이슈 -> 원인파악 잘못함, cors이슈 아님을 확인함</li>
     <li><span>2025-04-08(화): 모바일 에뮬레이터에서 itunesSearchAPI활용 시, user-agent에 따른 apple api응답차이로 인한 빈배열 발생 -> soultion 진행중</li>
   </ul>
 </p>
