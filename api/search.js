@@ -1,24 +1,29 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
-  const { term } = req.query; // 검색어를 쿼리에서 가져옴
+  const { term } = req.query;
 
   try {
+    console.log('Received request:', req.query); // 추가
+
     const response = await axios.get('https://itunes.apple.com/search', {
       params: {
         term,
-        entity: 'software', // 앱만 검색되도록 설정
-        country: 'KR',      // 한국 스토어 기준
-        lang: 'ko_kr'       // 한국어
+        entity: 'software',
+        country: 'KR',
+        lang: 'ko_kr'
       },
       headers: {
-        'User-Agent': 'React-App' // iTunes API에서 User-Agent 없을 때 차단하는 경우 방지
+        'User-Agent': 'React-App'
       }
     });
 
-    res.status(200).json(response.data); // 받아온 데이터를 그대로 프론트에 전달
+    console.log('iTunes response:', response.data); // 추가
+
+    res.status(200).json(response.data);
   } catch (error) {
-    console.error('Proxy error:', error.message);
+    console.error('Proxy error:', error.message); // 기존 로그
+    console.error('Full error:', error); // 추가 로그
     res.status(500).json({ error: 'Failed to fetch data from iTunes API' });
   }
 }
